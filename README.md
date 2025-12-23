@@ -86,6 +86,15 @@ The official downloadable dataset already contains (see appendix for details):
 - `trcSMPL/` – joint positions on the SMPL skeleton,
 - `wav/` – corresponding audio.
 
+### Recommended Train/Test Splits
+
+We provide recommended train/test split files in `dataset/`:
+
+- `dataset/train_all.txt` & `dataset/test_all.txt`
+- `dataset/train_shamisen.txt` & `dataset/test_shamisen.txt`
+
+These splits are designed based on the **Jo-Ha-Kyu score** to ensure that both the training and test sets have similar score distributions. Users can refer to these for their experiments or define their own splits as needed.
+
 The scripts in `dataset/` are provided so that others can **rebuild similar pipelines for their own motion capture data**.
 
 ### Step 1 – Prepare puppet BVH clips for MotionBuilder
