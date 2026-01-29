@@ -176,8 +176,16 @@ def build_smpl_npz(
     root: str,
     in_bvh_smpl_dir: str = "bvhSMPL",
     out_npz_dir: str = "npz",
+    trans_scale: float = 1.0,
 ) -> None:
-    """Convert SMPL BVH files to SMPL-style NPZ files (trans + poses)."""
+    """Convert SMPL BVH files to SMPL-style NPZ files (trans + poses).
+
+    Parameters
+    ----------
+    trans_scale : float
+        Scale factor applied to BVH root translation before saving to NPZ.
+        Use 0.01 for cm->m conversion (i.e., divide by 100).
+    """
     in_dir = os.path.join(root, in_bvh_smpl_dir)
     out_dir = os.path.join(root, out_npz_dir)
     os.makedirs(out_dir, exist_ok=True)
@@ -190,6 +198,8 @@ def build_smpl_npz(
         data, _, _ = bvh.bvhreader(item)
 
         pos = data[:, :3]
+        if trans_scale != 1.0:
+            pos = pos * float(trans_scale)
         rotation = data[:, 3:]
 
         rotation = rotation.reshape([rotation.shape[0], int(rotation.shape[1] / 3), 3])
@@ -242,6 +252,15 @@ def main():
         default="npz",
         help="Subdirectory under root for SMPL NPZ output.",
     )
+    parser.add_argument(
+        "--trans-scale",
+        type=float,
+        default=1.0,
+        help=(
+            "Scale factor applied to BVH root translation before saving to NPZ. "
+            "Use 0.01 for cm->m conversion (divide by 100)."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -259,6 +278,7 @@ def main():
         root=root,
         in_bvh_smpl_dir=args.out_bvh_smpl_dir,
         out_npz_dir=args.out_npz_dir,
+        trans_scale=args.trans_scale,
     )
 
     print(f"SMPL BVH written to: {os.path.join(root, args.out_bvh_smpl_dir)}")

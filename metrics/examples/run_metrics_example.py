@@ -120,8 +120,8 @@ def run_metrics(example_data_root):
     else:
         print("Skipping S-curve (TRC file not found).")
 
-    # --- 3. Head–Hand Contrast ---
-    print("\n--- [Metric 3] Head–Hand Contrast Score ---")
+    # --- 3. Head-Hand Contrast ---
+    print("\n--- [Metric 3] Head-Hand Contrast Score ---")
     # Note: we renamed hand_pos to r_hand_pos above, so need to update here
     if os.path.exists(trc_path) and 'head_pos' in locals() and 'r_hand_pos' in locals():
         try:

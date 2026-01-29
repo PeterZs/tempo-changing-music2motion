@@ -72,7 +72,10 @@ def run_step3_finalize():
     smpl_bvh_to_smpl_npz.build_smpl_npz(
         root=work_dir,
         in_bvh_smpl_dir="bvhSMPL",
-        out_npz_dir="npz"
+        out_npz_dir="npz",
+        # Convert root translation from centimeters to meters before saving NPZ.
+        # If your BVH translation unit is not cm, adjust this (e.g., mm->m: 0.001).
+        trans_scale=0.01,
     )
     
     print(f" -> SMPL NPZ generated in: {dir_final_npz}")
